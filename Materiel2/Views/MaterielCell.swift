@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MaterielView: View {
+struct MaterielCell: View {
     let materiel: Materiel
     
     var body: some View {
@@ -15,14 +15,17 @@ struct MaterielView: View {
         VStack {
             HStack {
                 Text(materiel.nameObject)
-            }
+                Text(materiel.price.description)
+                Spacer()
+                Image(systemName: materiel.isDone ? "checkmark.circle" : "circle")
+            }.padding()
         }
     }
 }
 
-struct MaterielView_Previews: PreviewProvider {
+struct MaterielCell_Previews: PreviewProvider {
     static var previews: some View {
-        MaterielView(materiel: Materiel(nameObject: "xbox", price: 100))
+        MaterielCell(materiel: Materiel(nameObject: "xbox", price: 100))
     }
 }
 

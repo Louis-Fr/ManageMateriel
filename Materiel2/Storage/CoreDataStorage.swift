@@ -48,13 +48,27 @@ class CoreDataStorage {
         let newMateriel = CDMateriel(context: context)
         newMateriel.id = materiel.id
         newMateriel.nameObject = materiel.nameObject
-        newMateriel.price = Int16(Int(materiel.price))
+        newMateriel.price = Int16(materiel.price)
         newMateriel.isDone = materiel.isDone
         saveData()
     }
     
     func updateMateriel(materiel: Materiel) {
-        //
+        if let existingTask = fetchCDMateriel(withId: materiel.id) {
+            existingTask.nameObject = materiel.nameObject
+            existingTask.price = Int16(materiel.price)
+            existingTask.isDone = materiel.isDone
+            saveData()
+        }
+    }
+    
+    // Modifify object
+    private func fetchCDMateriel(withId materielId: UUID) -> CDMateriel? {
+        let fetchRequest: NSFetchRequest<CDMateriel> = CDMateriel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", materielId as CVarArg)
+        fetchRequest.fetchLimit = 1
+        let fetchResult: [CDMateriel]? = try? context.fetch(fetchRequest)
+        return fetchResult?.first
     }
     
     

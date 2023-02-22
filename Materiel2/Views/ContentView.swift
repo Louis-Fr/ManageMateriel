@@ -11,47 +11,55 @@ struct ContentView: View {
     
     @State var materielManager = MaterielManager()
     @State var userMateriel: String = ""
-    @State var userPriceMateriel: Int = 0
+    @State var userPrice: Int = 0
     
     var body: some View {
-        ZStack {
-            Color.gray.ignoresSafeArea()
+        
             VStack {
                 HStack {
                     TextField("Name Object", text: $userMateriel)
                         .bold()
                         .textFieldStyle(.roundedBorder)
-                    
-                    TextField("Enter you price", value: $userPriceMateriel, formatter: NumberFormatter())
-                    
+                        .padding()
+                    TextField("Price Object", value: $userPrice, formatter: NumberFormatter())
+                        .bold()
                         .textFieldStyle(.roundedBorder)
                         .padding()
-                    Button {
-                        createMateriel()
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    .padding()
-                }.padding()
-                
-                ForEach(materielManager.materielList) { index in
-                    MaterielCell(materiel: index).bold()
                 }
-            }
-            
+                
+                Button(action: createMateriel, label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
+                }).disabled(userMateriel.count == 0)
+                    .padding()
+                    VStack(alignment: HorizontalAlignment.leading) {
+                        ForEach(materielManager.materielList) { index in
+                            MaterielCell(materiel: index)
+                        .onTapGesture {
+                            userTouchMateriel(index)
+                            }
+                        }
+                        
+                    }.padding()
+                
+                    
+                }
+                
         }
-        
-    }
     
     func createMateriel() {
-        if userMateriel.count > 4 {
-            materielManager.addMateriel(withName: userMateriel, materielPrice: userPriceMateriel)
+        if userMateriel.count > 0 {
+            materielManager.addMateriel(withName: userMateriel, materielPrice: userPrice)
             userMateriel = ""
-            userPriceMateriel = userPriceMateriel
         }
     }
+    
+    
+    
+        func userTouchMateriel(_ materiel: Materiel) {
+            materielManager.toggleMateriel(withId: materiel.id)
+        }
 }
-
 
 
 

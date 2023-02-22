@@ -14,10 +14,11 @@ struct MaterielCell: View {
         
         VStack {
             HStack {
-                Text(materiel.nameObject)
-                Text(materiel.price.description)
+                Text(materiel.nameObject).padding()
+                Text(materiel.price.description).padding()
                 Spacer()
                 Image(systemName: materiel.isDone ? "checkmark.circle" : "circle")
+                    .imageScale(.large)
             }.padding()
         }
     }

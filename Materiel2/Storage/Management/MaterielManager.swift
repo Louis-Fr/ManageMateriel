@@ -9,7 +9,7 @@ import Foundation
 
 struct MaterielManager {
     var materielList: [Materiel]
-    var storage: CoreDataStorage = CoreDataStorage()
+    let storage: CoreDataStorage = CoreDataStorage()
     
     init() {
         materielList = storage.fetchMaterielList()
@@ -24,10 +24,10 @@ struct MaterielManager {
     }
     
     mutating func toggleMateriel(withId materielId: UUID) {
-        if let materielIndex = materielList.firstIndex(where: { (index) -> Bool in
-            index.id == materielId }) {
+        if let materielIndex = materielList.firstIndex(where: {(t) -> Bool in
+            t.id == materielId }) {
             materielList[materielIndex].isDone.toggle()
-//            storage.
+//            storage.updateMateriel(materiel: materielList[materielIndex])
         }
     }
 }
